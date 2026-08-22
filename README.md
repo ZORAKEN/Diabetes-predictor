@@ -93,12 +93,107 @@ The models are evaluated using:
 
 Example evaluation:
 
-```python
-print(confusion_matrix(Y_test, Y_prediction))
-print(classification_report(Y_test, Y_prediction))
-```
+F1-Score-Based Model Selection
 
-The confusion matrix helps identify correct and incorrect predictions for both diabetic and non-diabetic classes.
+After the initial model trial, F1-score was chosen as the main model-selection metric instead of selecting a model purely based on accuracy.
+
+F1-score provides a balance between precision and recall and is more informative when working with an imbalanced classification problem.
+
+GridSearchCV with 10-fold cross-validation was used to tune the SVM C parameter.
+
+GridSearchCV(
+    pipeline,
+    parameters,
+    cv=10,
+    scoring='f1',
+    n_jobs=-1
+)
+Linear SVM Results
+
+Best parameter:
+
+C = 0.1
+
+Best cross-validation F1-score:
+
+0.6872
+
+The final Linear SVM achieved approximately:
+
+Test Accuracy: 72.73%
+RBF SVM
+
+RBF SVM was also tuned using F1-score.
+
+Best parameters:
+
+C = 100
+gamma = 0.001
+
+Best cross-validation F1-score:
+
+0.6406
+
+The tuned RBF SVM achieved:
+
+Test Accuracy: 76.62%
+
+Although the RBF model had higher test accuracy, its cross-validation F1-score was lower than the tuned Linear SVM. Therefore, the Linear SVM was preferred when using F1-score as the model-selection criterion.
+
+Final Model Evaluation
+
+The selected Linear SVM produced the following confusion matrix:
+
+[[78 22]
+ [20 34]]
+
+Classification results:
+
+Class	Precision	Recall	F1-score
+Not Diabetic (0)	0.80	0.78	0.79
+Diabetic (1)	0.61	0.63	0.62
+
+Overall test accuracy:
+
+72.73%
+
+The final model achieved an F1-score of 0.62 for the diabetic class and 0.70 macro-average F1-score.
+
+Why F1-Score?
+
+The project initially compared models using accuracy, but accuracy can be misleading when the classes are not evenly distributed.
+
+For this reason, the final model-selection process uses F1-score with 10-fold cross-validation.
+
+The goal is not simply to maximize the percentage of correct predictions, but to achieve a better balance between:
+
+Precision
+Recall
+Detection of positive diabetes cases
+Prediction
+
+The trained model can be used to make predictions on new patient data.
+
+Example:
+
+input_data = (4, 110, 92, 0, 0, 37.6, 0.191, 30)
+
+input_data_as_numpy_array = np.asarray(input_data)
+input_data_reshaped = input_data_as_numpy_array.reshape(1, -1)
+
+prediction = best_classifier.predict(input_data_reshaped)
+
+print("Prediction:", prediction)
+
+if prediction[0] == 0:
+    print("The person is not diabetic")
+else:
+    print("The person is diabetic")
+
+The model returns:
+
+0 → Not diabetic
+1 → Diabetic
 
 ## 🔮 Making Predictions
 
