@@ -193,15 +193,8 @@ Diabetes Prediction
 ## 🔮 Future Improvements
 
 Possible improvements include:
-
-* Further feature engineering
-* More extensive hyperparameter tuning
 * Better handling of class imbalance
 * Threshold optimization to improve diabetes detection
-* Comparing additional machine learning algorithms
 * Creating a web interface for predictions
 * Saving the trained model for deployment
 
-## ⚠️ Disclaimer
-
-This project is intended for **educational and machine learning purposes only**. It is not a medical diagnostic system and should not be used as a substitute for professional medical advice.
